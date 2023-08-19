@@ -1,5 +1,6 @@
 #pragma once
 #include <cliext\algorithm>;
+#include "Point3D.h";
 
 namespace Lab0EjemploMoisesAlonso {
 
@@ -9,7 +10,6 @@ namespace Lab0EjemploMoisesAlonso {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-	using namespace cliext;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -40,6 +40,8 @@ namespace Lab0EjemploMoisesAlonso {
 	protected:
 	private: System::Windows::Forms::Button^ btnIncrement;
 	private: System::Windows::Forms::Label^ lblNumero;
+	private: System::Windows::Forms::Button^ btnPoint;
+	private: System::Windows::Forms::Label^ lblPoint;
 
 
 	private:
@@ -58,6 +60,8 @@ namespace Lab0EjemploMoisesAlonso {
 			this->txtNumero = (gcnew System::Windows::Forms::TextBox());
 			this->btnIncrement = (gcnew System::Windows::Forms::Button());
 			this->lblNumero = (gcnew System::Windows::Forms::Label());
+			this->btnPoint = (gcnew System::Windows::Forms::Button());
+			this->lblPoint = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// txtNumero
@@ -88,11 +92,34 @@ namespace Lab0EjemploMoisesAlonso {
 			this->lblNumero->TabIndex = 2;
 			this->lblNumero->Text = L"0";
 			// 
+			// btnPoint
+			// 
+			this->btnPoint->Location = System::Drawing::Point(33, 92);
+			this->btnPoint->Name = L"btnPoint";
+			this->btnPoint->Size = System::Drawing::Size(100, 23);
+			this->btnPoint->TabIndex = 3;
+			this->btnPoint->Text = L"Generar Punto";
+			this->btnPoint->UseVisualStyleBackColor = true;
+			this->btnPoint->Click += gcnew System::EventHandler(this, &MyForm::btnPoint_Click);
+			// 
+			// lblPoint
+			// 
+			this->lblPoint->AutoSize = true;
+			this->lblPoint->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lblPoint->Location = System::Drawing::Point(152, 92);
+			this->lblPoint->Name = L"lblPoint";
+			this->lblPoint->Size = System::Drawing::Size(52, 13);
+			this->lblPoint->TabIndex = 4;
+			this->lblPoint->Text = L"(0, 0, 0)";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(753, 236);
+			this->Controls->Add(this->lblPoint);
+			this->Controls->Add(this->btnPoint);
 			this->Controls->Add(this->lblNumero);
 			this->Controls->Add(this->btnIncrement);
 			this->Controls->Add(this->txtNumero);
@@ -147,7 +174,22 @@ namespace Lab0EjemploMoisesAlonso {
 			return true;
 		}
 		   
-	};
+	private: System::Void btnPoint_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		Point3D point;
+		DateTime^ actualDate = DateTime::Now;
+		int seed = actualDate->Millisecond;
+
+		Random^ rnd = gcnew Random( seed );
+
+		point.x = rnd->Next();
+		point.y = rnd->Next();
+		point.z = rnd->Next();
+
+		String^ strPunto = "(" + point.x + ", " + point.y + ", " + point.z + ")";
+		lblPoint->Text = strPunto;
+	}
+};
 
 	
 }

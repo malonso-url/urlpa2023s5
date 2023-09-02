@@ -10,7 +10,9 @@ double Circulo::CalcularPerimetro() {
 }
 
 void Circulo::setRadio(double _radio) {
-	radio = _radio;
+	if (_radio >= 0) {
+		radio = _radio;
+	}
 }
 
 double Circulo::getRadio() {

@@ -203,18 +203,56 @@ namespace Lab1MoisesAlonso25642 {
 	private: System::Void btnAgregar_Click(System::Object^ sender, System::EventArgs^ e) {
 
 		FiguraGeometrica^ miFigura;
+		bool ocurrioError = false;
 
 		if (rbCirculo->Checked) {
-			miFigura = gcnew Circulo(Convert::ToDouble(txtRadio->Text));
+			ocurrioError = !esRepresentacionDouble(txtRadio->Text);
+			if (!ocurrioError) {
+				miFigura = gcnew Circulo(Convert::ToDouble(txtRadio->Text));
+			}
+			else {
+				MessageBox::Show("Cadena ingresada no tiene el formato correcto", "Formato incorrecto", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			}
+			
 		}
 		else {
-			miFigura = gcnew Rectangulo(Convert::ToDouble(txtLadoA->Text), Convert::ToDouble(txtLadoB->Text));
+
+			ocurrioError = !esRepresentacionDouble(txtLadoA->Text) || !esRepresentacionDouble(txtLadoB->Text);
+
+			if (!ocurrioError) {
+				miFigura = gcnew Rectangulo(Convert::ToDouble(txtLadoA->Text), Convert::ToDouble(txtLadoB->Text));
+			}
+			else {
+				MessageBox::Show("Cadena ingresada no tiene el formato correcto", "Formato incorrecto", MessageBoxButtons::OK, MessageBoxIcon::Exclamation);
+			}
+			
 		}
 
-		misFiguras->Add(miFigura);
+		if (!ocurrioError) {
+			misFiguras->Add(miFigura);
 
-		EscribirFigurasEnListView();
+			EscribirFigurasEnListView();
+			MostrarPerimetroEnMessageBox(miFigura);
+		}
+		
 	}
+
+		   /// <summary>
+		   /// Esta funcion verifica que la cadena de entrada sea la representacion de un numero
+		   /// 
+		   /// FUNCION GENERADA POR IA
+		   /// PROMPT: En C++ / CLI necesito una función que reciba un System::String^ y devuelva true si es la representación de un double o false de lo contrario
+		   /// </summary>
+		   /// <param name="str">Es la cadena de entrada</param>
+		   /// <returns>true si es un numero ej. 20, 30.45 o false de lo contrario</returns>
+		   bool esRepresentacionDouble(String^ str) {
+			   double resultado;
+			   return Double::TryParse(str, resultado);
+		   }
+
+		   void MostrarPerimetroEnMessageBox(FiguraGeometrica^ figura) {
+			   MessageBox::Show("El perimetro es " + figura->CalcularPerimetro(), "Perimetro", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		   }
 
 		   void EscribirFigurasEnListView() {
 			   

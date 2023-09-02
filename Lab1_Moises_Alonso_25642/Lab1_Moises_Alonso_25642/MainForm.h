@@ -254,19 +254,21 @@ namespace Lab1MoisesAlonso25642 {
 			   MessageBox::Show("El perimetro es " + figura->CalcularPerimetro(), "Perimetro", MessageBoxButtons::OK, MessageBoxIcon::Information);
 		   }
 
+		   /// <summary>
+			/// Esta función escribe información sobre las figuras geométricas en un control Label.
+			/// </summary>
 		   void EscribirFigurasEnListView() {
-			   
 			   String^ elemento = "";
 			   for (int i = 0; i < misFiguras->Count; i++) {
 				   if (misFiguras[i]->GetTipo() == FiguraGeometrica::TIPO_CIRCULO) {
-					   elemento += "La figura es un Circulo con area: " + misFiguras[i]->CalcularArea() + "\r\n";
+					   elemento += "La figura es un Círculo con área: " + misFiguras[i]->CalcularArea() + "\r\n";
 				   }
 				   else {
-					   elemento += "La figura es un Rectangulo con area: " + misFiguras[i]->CalcularArea() + "\r\n";
+					   elemento += "La figura es un Rectángulo con área: " + misFiguras[i]->CalcularArea() + "\r\n";
 				   }
-
 			   }
 
+			   // Actualiza un control Label (lblResultado) con la información de las figuras.
 			   lblResultado->Text = elemento;
 		   }
 };

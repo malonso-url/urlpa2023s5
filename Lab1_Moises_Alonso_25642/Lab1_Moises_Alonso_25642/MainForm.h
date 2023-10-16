@@ -12,6 +12,7 @@ namespace Lab1MoisesAlonso25642 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::Collections::Generic;
+	using namespace System::IO;
 	
 
 	/// <summary>
@@ -57,6 +58,12 @@ namespace Lab1MoisesAlonso25642 {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::TextBox^ txtArchivo;
+	private: System::Windows::Forms::Button^ btnCargarArchivo;
+	private: System::Windows::Forms::OpenFileDialog^ ofdArchivoTexto;
+	private: System::Windows::Forms::Label^ label4;
+	private: System::Windows::Forms::TextBox^ txtNumero;
+	private: System::Windows::Forms::Button^ btnSuma;
 
 
 
@@ -83,6 +90,12 @@ namespace Lab1MoisesAlonso25642 {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->txtArchivo = (gcnew System::Windows::Forms::TextBox());
+			this->btnCargarArchivo = (gcnew System::Windows::Forms::Button());
+			this->ofdArchivoTexto = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->txtNumero = (gcnew System::Windows::Forms::TextBox());
+			this->btnSuma = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// btnAgregar
@@ -174,11 +187,64 @@ namespace Lab1MoisesAlonso25642 {
 			this->label3->TabIndex = 9;
 			this->label3->Text = L"Lado B";
 			// 
+			// txtArchivo
+			// 
+			this->txtArchivo->Location = System::Drawing::Point(713, 34);
+			this->txtArchivo->Multiline = true;
+			this->txtArchivo->Name = L"txtArchivo";
+			this->txtArchivo->Size = System::Drawing::Size(378, 232);
+			this->txtArchivo->TabIndex = 10;
+			// 
+			// btnCargarArchivo
+			// 
+			this->btnCargarArchivo->Location = System::Drawing::Point(878, 285);
+			this->btnCargarArchivo->Name = L"btnCargarArchivo";
+			this->btnCargarArchivo->Size = System::Drawing::Size(75, 23);
+			this->btnCargarArchivo->TabIndex = 11;
+			this->btnCargarArchivo->Text = L"Cargar Archivo";
+			this->btnCargarArchivo->UseVisualStyleBackColor = true;
+			this->btnCargarArchivo->Click += gcnew System::EventHandler(this, &MainForm::btnCargarArchivo_Click);
+			// 
+			// ofdArchivoTexto
+			// 
+			this->ofdArchivoTexto->FileName = L"openFileDialog1";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Location = System::Drawing::Point(1180, 56);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(108, 16);
+			this->label4->TabIndex = 12;
+			this->label4->Text = L"Numero a Sumar";
+			// 
+			// txtNumero
+			// 
+			this->txtNumero->Location = System::Drawing::Point(1183, 95);
+			this->txtNumero->Name = L"txtNumero";
+			this->txtNumero->Size = System::Drawing::Size(100, 22);
+			this->txtNumero->TabIndex = 13;
+			// 
+			// btnSuma
+			// 
+			this->btnSuma->Location = System::Drawing::Point(1183, 138);
+			this->btnSuma->Name = L"btnSuma";
+			this->btnSuma->Size = System::Drawing::Size(75, 23);
+			this->btnSuma->TabIndex = 14;
+			this->btnSuma->Text = L"Suma hasta N";
+			this->btnSuma->UseVisualStyleBackColor = true;
+			this->btnSuma->Click += gcnew System::EventHandler(this, &MainForm::btnSuma_Click);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(738, 367);
+			this->ClientSize = System::Drawing::Size(1350, 367);
+			this->Controls->Add(this->btnSuma);
+			this->Controls->Add(this->txtNumero);
+			this->Controls->Add(this->label4);
+			this->Controls->Add(this->btnCargarArchivo);
+			this->Controls->Add(this->txtArchivo);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -271,5 +337,35 @@ namespace Lab1MoisesAlonso25642 {
 			   // Actualiza un control Label (lblResultado) con la información de las figuras.
 			   lblResultado->Text = elemento;
 		   }
+
+	private: int sumaHastaNumeroN(int numeroN) {
+		if (numeroN == 1) {
+			return 1;
+		}
+		else {
+			return numeroN + sumaHastaNumeroN(numeroN - 1);
+		}
+	}
+
+			private: System::Void btnCargarArchivo_Click(System::Object^ sender, System::EventArgs^ e) {
+				
+				if (System::Windows::Forms::DialogResult::OK == ofdArchivoTexto->ShowDialog()) {
+					String^ path = ofdArchivoTexto->FileName;
+					MessageBox::Show("Path: " + path, "Archivo correcto");
+					array<String^ >^ contenidoArchivo = File::ReadAllLines(path);
+					for (int i = 0; i < contenidoArchivo->Length; i++) {
+						txtArchivo->Text += contenidoArchivo[i] + "\r\n";
+					}
+				}
+				else {
+					MessageBox::Show("archivo incorrecto", "No abrio archivo");
+				}
+				
+
+			}//Fin del boton Carga Archivos
+
+private: System::Void btnSuma_Click(System::Object^ sender, System::EventArgs^ e) {
+	MessageBox::Show("resultado: " + sumaHastaNumeroN(Convert::ToInt32(txtNumero->Text)),"Suma hasta N");
+}
 };
 }
